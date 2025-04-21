@@ -1,0 +1,99 @@
+For the infrastructure requirements, since their clients are from London, they can use the eu-west-2 region.  
+
+Additionally, for the VPC, they can use a CIDR block of 10.0.0.0/16 which supports 65,536 IPs for future scaling since there is the possibility of adding an application servers' subnets and load balancer subnet in the future. 
+
+For two subnets (Web and Database) with about 4000 servers each, we can design our subnets this way: 
+
+Public Subnets (Web Tier): 
+
+10.0.1.0/20 (AZ-1) → 4,094 IPs (Web Servers 1-2000 + ALB) 
+
+10.0.17.0/20 (AZ-2) → 4,094 IPs (Web Servers 2001-4000) 
+
+Private Subnets (DB Tier): 
+
+10.0.32.0/20 (AZ-1) → 4,094 IPs (DB Servers 1-2000) 
+
+10.0.48.0/20 (AZ-2) → 4,094 IPs (DB Servers 2001-4000) 
+
+For security requirements, we will be using MySQL database in this use case 
+
+Web Servers SG: 
+
+Inbound: 
+
+HTTP (80) from 0.0.0.0/0 
+
+SSH (22) from TCS Admin IPs only 
+
+Outbound: MySQL to Database SG 
+
+DB Servers SG: 
+
+Inbound: 
+
+MySQL (3306) from Web Servers SG 
+
+SSH (22) from Web Servers SG only 
+
+Outbound: N/A 
+
+ Internet Access 
+
+Public Subnets: 
+
+Internet Gateway (IGW) attached to VPC 
+
+Route table: 0.0.0.0/0 → IGW 
+
+Private Subnets: 
+
+No IGW access which differentiates the public from private subnets based on what we’ve been taught. 
+
+ Load Balancing 
+
+Located in public subnets 
+
+Listens on HTTP/HTTPS 
+
+Routes traffic to Web Servers across AZs 
+
+Here is a diagrammatic representation of the deployment below:  
+
+ 
+
+https://drive.google.com/file/d/1ik4s5ypuTH6nns0rG-VoOGuseOipiL2E/view?usp=sharing 
+
+Additionally, from the AWS console, the deployment is also illustrated below: 
+
+VPC: 
+
+ 
+
+Subnets: 
+
+ 
+
+ 
+
+Internet Gateway: 
+
+ 
+
+Route Table associated with the public subnets only for internet access: 
+
+ 
+
+Route table for Private Subnets will be the main route table with only VPC route: 
+
+ 
+
+Security Groups associated with the web and DB servers: 
+
+ 
+
+ 
+
+ 
+
+ 

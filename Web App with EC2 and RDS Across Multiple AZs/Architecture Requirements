@@ -1,0 +1,7 @@
+Draw an architecture that:
+- Uses two EC2 instances in different Availability Zones
+- Connects both EC2 instances to a single RDS database set up with Multi-AZ deployment
+- Uses a Load Balancer to route user traffic to the EC2 instances
+- Is deployed in one AWS Region
+Explain how this architecture improves reliability and minimizes downtime if one
+Availability Zone fails.

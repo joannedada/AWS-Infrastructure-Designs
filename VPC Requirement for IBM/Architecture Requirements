@@ -1,0 +1,31 @@
+Presentation Tier
+It constitutes the front-end layer of the application and the interface with which end-users will interact through a web-based application in the form of a graphical user interface (GUI).
+Application Tier
+It controls the application’s core functionality i.e business logic by performing detailed processing and is usually coded in programming languages, such as Python, Java, Nodejs, .NET, etc.
+Data Tier
+Houses database servers where information is stored and retrieved. Such as MongoDB, Oracle, MySQL, and Microsoft SQL Server.
+
+Target Clients are from India { IBM } { 192.168.0.0/16 }
+Create VPC which will host three different subnet {group} of servers
+Frontend Subnet
+Application Subnet
+Database Subnet
+Subnets size should be 250 IPs
+
+Frontend Subnet should be accessible from Internet
+Application & Database Subnets shouldn't be accessible from Internet
+
+Firewalls
+All frontend servers should be accessible over SSH from www
+All frontend servers should be accessible over HTTP from www
+All DB Servers should be accessible over SSH from DB ADMIN server, where DB ADMIN Server IP is 192.168.2.22
+
+DB Server 1
+Allow only App Server to access MySQL Port on DB Server 1, where App Server IP Address is 192.168.1.60
+
+DB Server 2
+Allow all Frontend Servers to access MySQL port on DB Server 2
+All App Servers, should only receive the traffic from Frontend Servers on a port 8080
+
+Try downloading the following installation file on DB Server 1 or DB Server 2 using the below command
+wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm

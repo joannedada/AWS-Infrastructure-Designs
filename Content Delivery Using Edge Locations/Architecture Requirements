@@ -1,0 +1,7 @@
+Create an architecture diagram showing how a website hosted in one region can serve
+global users with low latency using:
+- An S3 bucket for static content
+- CloudFront (CDN)
+- At least two edge locations (label them by continent or region)
+Explain how CloudFront and Edge Locations improve performance for users around the
+world.

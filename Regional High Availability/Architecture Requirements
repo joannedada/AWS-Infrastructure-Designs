@@ -1,0 +1,6 @@
+Design a basic AWS architecture that includes:
+- At least 2 Availability Zones
+- An EC2 instance in each AZ
+- An RDS instance with Multi-AZ deployment
+- An Elastic Load Balancer (ELB) to distribute traffic
+Explain why high availability is important and how this setup ensures fault tolerance.
