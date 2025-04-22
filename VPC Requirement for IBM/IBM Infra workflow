@@ -1,0 +1,73 @@
+For the infrastructure requirements, since their clients are from India, we will use the ap-south-1 region.  
+
+Additionally, for the VPC, we will use a CIDR block of 192.168.0.0/16 as instructed. 
+
+For three subnets (Frontend, Application and Database) with about 250 IPs each, we can design our subnets this way: 
+
+Frontend Subnet (Presentation Tier): 192.168.0.0/24 
+
+Application Subnet (Application Tier): 192.168.1.0/24 
+
+Database Subnet (Data Tier): 192.168.2.0/24 
+
+ 
+
+For Security requirements; 
+
+ 
+
+Frontend Subnet Security Group 
+
+   Inbound Rules: 
+
+   SSH (22) from 0.0.0.0/0 (WWW) 
+
+   HTTP (80) from 0.0.0.0/0 (WWW) 
+
+   Outbound Rules: 
+
+   Custom TCP (8080) to App Servers (192.168.1.0/24) 
+
+   MySQL (3306) to DB Server 2 
+
+ 
+
+Application Subnet Security Group 
+
+Inbound Rules: 
+
+Custom TCP (8080) from Frontend Subnet (192.168.0.0/24) 
+
+Outbound Rules: 
+
+MySQL (3306) to DB Server 1 from 192.168.1.60 
+
+ 
+
+Database Subnet Security Group 
+
+DB Server 1 Rules: 
+
+MySQL (3306) from App Server (192.168.1.60) 
+
+SSH (22) from DB Admin Server (192.168.2.22) 
+
+ 
+
+DB Server 2 Rules: 
+
+MySQL (3306) from Frontend Subnet (192.168.0.0/24) 
+
+SSH (22) from DB Admin Server (192.168.2.22) 
+
+ 
+
+DB Admin Server Rules: 
+
+All traffic to other DB servers 
+
+ 
+
+If you try and download MYSQL package on either database servers, it will not be possible to remotely access the servers for starters using SSH because they are both in private subnets with no internet or SSH access. The only SSH access is from the DB Admin (192.168.2.22) which also has an IP address belonging to the same private subnet. 
+
+One way to access the database servers is to deploy a NAT gateway in the public subnet and add new routes in the private subnet’s route table. This gives temporary outbound access for the private resources but still blocks inbound traffic. 
